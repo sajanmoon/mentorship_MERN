@@ -4,14 +4,13 @@ const userAuth = require("../middleware/auth");
 const mentorRoute = express.Router();
 
 // get all the mentors
-mentorRoute.get("/", userAuth, async (req, res) => {
+mentorRoute.get("/", async (req, res) => {
   try {
     const mentors = await User.find({ role: "mentor" }).select("-password");
 
     if (!mentors || mentors.length === 0) {
       return res.status(404).json({ message: "No mentors found" });
     }
-
     res.json(mentors);
   } catch (error) {
     res.status(500).json({ message: "server error" });
